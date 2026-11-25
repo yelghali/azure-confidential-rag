@@ -1,0 +1,4 @@
+POL-201: During checkout incidents, capture timestamps, correlation IDs,
+HTTP status codes and deployment versions. Never paste credit card numbers into tickets.
+Escalate persistent HTTP 504 errors to the on-call platform team.
+The synthetic contact is Alice Martin (alice@example.test).

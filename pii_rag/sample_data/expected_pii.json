@@ -1,0 +1,22 @@
+{
+  "notice": "Synthetic evaluation canaries only. Never copy this file into de-identified output.",
+  "technical_facts": {
+    "INC-101": "connection-pool deployment",
+    "INC-102": "Increasing the pool alone made contention worse",
+    "INC-103": "queue-age alerts",
+    "INC-104": "unbounded retry loop",
+    "INC-105": "at-least-once delivery",
+    "INC-106": "missing verification-service timeout configuration",
+    "POL-201": "correlation IDs",
+    "POL-202": "queue age"
+  },
+  "categories": {
+    "names": ["Alice Martin", "Bob Chen", "Clara Jones"],
+    "emails": ["alice@example.test", "bob@example.test", "clara@example.test"],
+    "street_addresses": ["123 Example Avenue", "456 Sample Road", "789 Demo Street"],
+    "phones": ["+1 (202) 555-0143", "+1 (202) 555-0168", "+1 (202) 555-0199"],
+    "credit_cards": ["4111111111111111", "5555555555554444"],
+    "government_ids": ["123-45-6789"],
+    "bank_accounts": ["GB82 WEST 1234 5698 7654 32"]
+  }
+}

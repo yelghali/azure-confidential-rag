@@ -1,0 +1,9 @@
+SYNTHETIC TEST DOCUMENT. These identifiers are fictional examples, not customer records.
+INC-104: Checkout returned HTTP 429 after a gateway retry-policy deployment.
+Customer name: Alice Martin. Email address: alice@example.test.
+Billing address: 123 Example Avenue, Seattle, WA 98101.
+Phone number: +1 (202) 555-0143.
+Test credit card number: 4111111111111111.
+The technical cause was an unbounded retry loop, not a payment-card problem.
+The team bounded retries and added exponential backoff; the error rate dropped.
+For incident analysis retain HTTP 429, the retry policy and the mitigation, not the personal details.

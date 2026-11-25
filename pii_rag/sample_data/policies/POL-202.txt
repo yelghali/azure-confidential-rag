@@ -1,0 +1,3 @@
+POL-202: For password reset delays, inspect queue age and worker health before retrying.
+Use the approved support channel and avoid collecting personal account credentials.
+Record the remediation steps and add a monitoring action.

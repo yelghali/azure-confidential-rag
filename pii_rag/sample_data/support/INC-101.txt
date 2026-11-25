@@ -1,0 +1,4 @@
+INC-101: Checkout latency increased after a connection-pool deployment.
+Reporter Alice Martin (alice@example.test) observed HTTP 504 errors.
+The team rolled back the pool configuration and capped concurrent database connections.
+Latency returned to normal. No payment data was needed to diagnose the incident.

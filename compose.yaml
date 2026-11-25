@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      RAG_MODE: demo
+    volumes:
+      - demo-data:/app/.data
+  presidio:
+    image: mcr.microsoft.com/presidio-analyzer:latest
+    profiles: ["presidio"]
+    ports:
+      - "127.0.0.1:5002:3000"
+volumes:
+  demo-data:

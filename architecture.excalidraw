@@ -1,0 +1,33 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "copilot",
+  "appState": {"viewBackgroundColor": "#ffffff"},
+  "files": {},
+  "elements": [
+    {"id":"title","type":"text","x":20,"y":0,"width":1200,"height":60,"text":"PII-protected RAG | Foundry prompt agent + Foundry IQ","fontSize":24,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"ingest","type":"rectangle","x":20,"y":90,"width":1240,"height":220,"strokeColor":"#0078D4","backgroundColor":"#CFE4FA","fillStyle":"solid"},
+    {"id":"ingest-text","type":"text","x":40,"y":110,"width":1200,"height":180,"text":"1. INDEXING (per collection)\nRaw Blob -> Managed indexer -> Custom skill calls Azure Language PII (live)\n-> Backend creates PII tokens -> Embed protected text -> Protected AI Search index\nBackend commits Fernet-encrypted original values to SQLite before publishing chunks.","fontSize":18,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"ui","type":"rectangle","x":20,"y":360,"width":220,"height":160,"strokeColor":"#0078D4","backgroundColor":"#CFE4FA","fillStyle":"solid"},
+    {"id":"ui-text","type":"text","x":35,"y":380,"width":190,"height":120,"text":"Web UI\nClear question\nRestored display","fontSize":18,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"protect","type":"rectangle","x":300,"y":360,"width":260,"height":160,"strokeColor":"#F7630C","backgroundColor":"#FFF4CE","fillStyle":"solid"},
+    {"id":"protect-text","type":"text","x":315,"y":380,"width":230,"height":135,"text":"2. QUESTION PII\nBackend calls Azure PII\nREDACTED markers\nNo question-value map","fontSize":16,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"agent","type":"rectangle","x":620,"y":360,"width":280,"height":160,"strokeColor":"#107C10","backgroundColor":"#DFF6DD","fillStyle":"solid"},
+    {"id":"agent-text","type":"text","x":635,"y":380,"width":250,"height":120,"text":"Foundry prompt agent\nSystem instructions\nTokenized history only","fontSize":18,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"iq","type":"rectangle","x":960,"y":360,"width":300,"height":160,"strokeColor":"#107C10","backgroundColor":"#DFF6DD","fillStyle":"solid"},
+    {"id":"iq-text","type":"text","x":975,"y":380,"width":270,"height":120,"text":"Foundry IQ knowledge base\nSanitized evidence only\nOne collection index","fontSize":18,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"vault","type":"rectangle","x":300,"y":620,"width":260,"height":160,"strokeColor":"#F7630C","backgroundColor":"#FFF4CE","fillStyle":"solid"},
+    {"id":"vault-text","type":"text","x":315,"y":635,"width":230,"height":140,"text":"SQLite mapping DB\nToken -> encrypted original\nCollection + doc version\nKey: RAG_MAPPING_KEY","fontSize":16,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"restore","type":"rectangle","x":620,"y":620,"width":280,"height":160,"strokeColor":"#F7630C","backgroundColor":"#FFF4CE","fillStyle":"solid"},
+    {"id":"restore-text","type":"text","x":635,"y":635,"width":250,"height":140,"text":"4. ANSWER / DISPLAY\nFinal PII scan + validation\nReveal: decrypt source tokens\nHide: same protected answer","fontSize":16,"fontFamily":2,"strokeColor":"#000000"},
+    {"id":"a1","type":"arrow","x":240,"y":430,"width":60,"height":0,"points":[[0,0],[60,0]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a2","type":"arrow","x":560,"y":430,"width":60,"height":0,"points":[[0,0],[60,0]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a3","type":"arrow","x":900,"y":430,"width":60,"height":0,"points":[[0,0],[60,0]],"strokeColor":"#1e1e1e","startArrowhead":"arrow","endArrowhead":"arrow"},
+    {"id":"a4","type":"arrow","x":760,"y":520,"width":0,"height":100,"points":[[0,0],[0,100]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a5","type":"arrow","x":560,"y":700,"width":60,"height":0,"points":[[0,0],[60,0]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a6","type":"arrow","x":260,"y":310,"width":170,"height":310,"points":[[0,0],[0,270],[170,270],[170,310]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a7","type":"arrow","x":620,"y":750,"width":490,"height":230,"points":[[0,0],[-490,0],[-490,-230]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"a8","type":"arrow","x":1110,"y":360,"width":0,"height":50,"points":[[0,0],[0,-50]],"strokeColor":"#1e1e1e","endArrowhead":"arrow"},
+    {"id":"note","type":"text","x":20,"y":830,"width":1240,"height":270,"text":"3. RETRIEVAL: agent -> backend function -> Foundry IQ -> protected AI Search evidence.\nThe model reasons on protected question/history and protected source text, not restored originals.\nSQLite path in Azure: /home/data/pii-rag/mappings.sqlite3 (persistent App Service storage).\nPresidio is optional, not used in live validation. Standalone file demo creates no mapping DB.\nFinal answer scan is after model generation; it cannot erase unexpected PII already stored remotely.\nNo new LLM call on reveal/hide. No per-document RBAC yet. Keep DB and key protected.","fontSize":18,"fontFamily":2,"strokeColor":"#000000"}
+  ]
+}

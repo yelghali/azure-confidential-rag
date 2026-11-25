@@ -1,0 +1,3 @@
+INC-103: Password reset emails were delayed because the mail queue stopped draining.
+Clara Jones (clara@example.test) reported the issue.
+Restarting the queue worker restored delivery. Add queue-age alerts.

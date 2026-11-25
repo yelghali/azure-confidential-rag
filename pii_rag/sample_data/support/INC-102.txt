@@ -1,0 +1,4 @@
+INC-102: Checkout requests timed out during peak traffic.
+Bob Chen (bob@example.test) reported database connection exhaustion.
+Increasing the pool alone made contention worse.
+Limiting concurrency and adding exponential backoff resolved the failures.

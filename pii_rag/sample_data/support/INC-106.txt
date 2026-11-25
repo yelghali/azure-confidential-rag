@@ -1,0 +1,10 @@
+SYNTHETIC TEST DOCUMENT. Never put real government or bank identifiers in support tickets.
+INC-106: Account-verification requests failed with HTTP 503 after a configuration change.
+Account holder name: Clara Jones. Email address: clara@example.test.
+Home address: 789 Demo Street, Austin, TX 78701.
+Telephone number: +1 (202) 555-0199.
+Example US Social Security number: 123-45-6789.
+Example IBAN: GB82 WEST 1234 5698 7654 32.
+The root cause was a missing verification-service timeout configuration.
+Restoring the configuration and adding a circuit breaker resolved the outage.
+Government identifiers and bank details were not needed for the technical investigation.

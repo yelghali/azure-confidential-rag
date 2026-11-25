@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PII-protected RAG | Incident desk</title>
+  <script src="/static/theme.js"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">AZURE / PRIVACY-PRESERVING RETRIEVAL</span>
+      <h1>Incident desk <span class="badge" id="mode">Connecting</span></h1>
+      <p>Keep the technical signal. Protect the incidental personal details.</p>
+    </div>
+    <button id="theme" type="button" aria-label="Switch light or dark theme">Switch theme</button>
+  </header>
+  <section id="connection-panel" class="connection-shell" aria-labelledby="connection-title">
+    <div class="card">
+      <h2 id="connection-title">Connecting to the demo</h2>
+      <p id="connection-message" role="status">Checking whether the service is ready...</p>
+      <form id="unlock" hidden>
+        <label for="app-key">Demo application access key</label>
+        <div class="row"><input id="app-key" type="password" autocomplete="off" required
+          aria-describedby="key-help"><button id="connect" disabled>Connect</button></div>
+        <p id="key-help" class="muted">Ask the demo operator for the key. If you deployed this app,
+          copy the value of <code>RAG_APP_KEY</code> from your local <code>.env</code> or
+          Azure App Service application settings, without quotes or extra spaces.
+          This is not an Azure API key or <code>RAG_SKILL_KEY</code>.</p>
+        <p class="muted">The key stays in this page's memory only. Refreshing or closing the page
+          requires connecting again. Collections and chat unlock after connection.</p>
+      </form>
+      <button id="retry-connection" type="button" hidden>Retry connection</button>
+      <p id="connection-error" role="alert"></p>
+      <noscript>JavaScript is required to connect and use the chat.</noscript>
+    </div>
+  </section>
+  <main id="workspace" hidden>
+    <details class="card walkthrough" id="walkthrough" open>
+      <summary>1. See what is hidden: original synthetic file vs actual protected index</summary>
+      <p class="muted">These originals are fictional bundled examples, not uploaded customer files.
+        The right side is read from the selected collection's index. Highlighted tokens replace detected values.</p>
+      <div class="row example-controls">
+        <label for="example">PII-rich sample file</label>
+        <select id="example" disabled></select>
+        <button id="load-example" type="button" disabled>Compare original / indexed</button>
+        <button id="ask-example" type="button" disabled>Run a PII-visible example</button>
+      </div>
+      <p id="example-status" role="status">Connect to inspect a sample.</p>
+      <div class="comparison">
+        <div><h3>Original synthetic file</h3><pre id="example-original">No sample loaded.</pre></div>
+        <div><h3>Actual protected index content</h3><div id="example-indexed"></div></div>
+      </div>
+      <p class="muted">Azure PII can also mask role words such as “customer” as PersonType.
+        This demo uses broad detection defaults; it is not guaranteed legal anonymization.</p>
+    </details>
+    <aside class="card">
+      <h2>Knowledge collection</h2>
+      <label for="collection">Isolated index &amp; knowledge base</label>
+      <select id="collection" disabled></select>
+      <p class="muted">Switching collection starts a new conversation. Document-level RBAC is not enabled.</p>
+      <button id="reset" type="button" disabled>New conversation</button>
+      <hr>
+      <h2>Ingestion</h2>
+      <p id="provider" class="muted"></p>
+      <label for="file">English UTF-8 text file (max 4,000 characters)</label>
+      <input id="file" type="file" accept=".txt,text/plain" disabled>
+      <button id="upload" type="button" disabled>Upload &amp; run indexer</button>
+      <button id="refresh" type="button" disabled>Check ingestion status</button>
+      <p id="ingestion-status" role="status" class="muted"></p>
+      <details><summary>How PII protection works</summary>
+        <p>Raw Blob → PII detection → opaque tokens → sanitized embeddings and Search index.</p>
+        <p>Only protected questions and answers enter agent history. Original values stay in the backend's encrypted mapping store.</p>
+      </details>
+    </aside>
+    <section class="card conversation">
+      <div class="section-head"><h2>2. Ask about incidents or policies</h2><span class="muted">Evidence first</span></div>
+      <p id="notice" class="notice" role="status"></p>
+      <h3>Try these fictional PII questions</h3>
+      <p class="muted">Click an example to fill the question, then Ask collection.
+        Detected PII is removed before the question reaches the agent or retrieval planner.</p>
+      <div id="privacy-questions" class="suggestions"></div>
+      <p id="question-expectation" role="status"></p>
+      <h3>Technical-only questions (may have nothing to reveal)</h3>
+      <div id="suggestions" class="suggestions"></div>
+      <div id="messages" role="log" aria-live="polite">
+        <p class="empty">Summarize fixes, compare failure patterns, or explain a policy.<br>Person and credit-card lookups are outside this sample's scope.</p>
+      </div>
+      <form id="chat">
+        <label for="question">Your question</label>
+        <textarea id="question" rows="3" maxlength="2000" required disabled
+          placeholder="What caused the checkout timeouts, and what resolved them?"></textarea>
+        <div class="section-head">
+          <label class="checkbox"><input id="restore" type="checkbox" disabled> Show original PII in the latest answer</label>
+          <button id="send" disabled>Ask collection</button>
+        </div>
+        <p id="privacy-status" class="notice" role="status">Ask a question first. A technical summary may contain no PII to restore.</p>
+        <p class="muted">The toggle updates the latest answer immediately, without another model call.
+          Protected index content and agent history never change. This is not an access-control policy.</p>
+      </form>
+      <p id="error" role="alert"></p>
+    </section>
+    <section class="card inspector">
+      <h2>Privacy inspector</h2>
+      <p class="muted">Protected questions and evidence go to Foundry. Revealing originals below
+        is a backend display operation, never another message to the model.</p>
+      <p id="privacy-counts" role="status">No answer yet.</p>
+      <h3>Your question as typed (UI only)</h3><pre id="original-question">No turn yet.</pre>
+      <h3>Question sent to agent (detected PII removed)</h3><pre id="protected-question">No turn yet.</pre>
+      <p class="muted">Question markers such as [REDACTED_PERSON] are not reversible.
+        Source tokens such as [PII_PERSON_…] have separate backend mappings.
+        This demo searches the technical subject, not a person's identity.</p>
+      <h3>Protected answer, before optional reveal</h3><pre id="protected-answer">No turn yet.</pre>
+      <p class="muted">The final privacy scan may add non-reversible masks after generation.
+        This panel is not a raw conversation-history export.</p>
+      <h3>Retrieved evidence / citations</h3><div id="evidence"></div>
+    </section>
+  </main>
+  <footer>No MAF. No custom hosted agent. Azure mode uses a Foundry prompt agent calling Foundry IQ through a controlled backend function.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

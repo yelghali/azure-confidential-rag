@@ -1,0 +1,9 @@
+SYNTHETIC TEST DOCUMENT. All personal and payment details below are test fixtures.
+INC-105: Shipment notifications were duplicated after a queue-consumer restart.
+Recipient name: Bob Chen. Contact email: bob@example.test.
+Delivery address: 456 Sample Road, Boston, MA 02108.
+Contact telephone: +1 (202) 555-0168.
+Test credit card number: 5555555555554444.
+The queue used at-least-once delivery without an idempotency key.
+Adding a stable message identifier and deduplication storage prevented duplicate notifications.
+Monitor duplicate-message counts and consumer restart events.
