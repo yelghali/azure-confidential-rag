@@ -246,6 +246,38 @@ flowchart LR
 
 The managed indexer sees raw text during ingestion; the final index and embedding inputs contain the protected representation. The custom skill commits mappings before publishing chunks. Native Blob ACL/RBAC inheritance is **not** enabled.
 
+### Why a Web API skill instead of calling PII directly?
+
+Azure AI Search's built-in **PII Detection skill** already calls Azure Language PII.
+Use it when detection and irreversible masking are sufficient. This RAG demo instead
+needs an application-owned mapping for optional restoration, so a custom Web API skill
+wraps detection and tokenization:
+
+```mermaid
+flowchart TB
+  I["AI Search managed indexer"] --> Choice{"Required behavior"}
+  Choice -->|"Mask only; no restoration"| BuiltIn["Built-in PII Detection skill calls Azure Language"]
+  BuiltIn --> Mask["alice@example.test becomes *****"]
+  Mask --> Simple["Index masked text; original cannot be recovered from the mask"]
+  Choice -->|"This RAG demo: reversible source tokens"| API["POST /api/skill/support on our App Service"]
+  API --> PII["Call Azure Language PII: receive detected spans"]
+  PII --> Token["Backend replaces email with an opaque PII_EMAIL token"]
+  Token --> DB[("SQLite: Fernet-encrypted original + collection/document scope")]
+  Token --> Protected["Return protected chunks to Search"]
+  Protected --> Index["Embed and index protected text"]
+  DB --> Reveal["Backend validates evidence and restores on explicit reveal"]
+```
+
+The `/api/skill/support` URL is **our backend**, not the Azure Language endpoint.
+Its configured `RAG_LANGUAGE_ENDPOINT` receives the PII analysis call. Azure PII detects
+the values; our code creates tokens, stores encrypted originals, and restores eligible
+source references. The wrapper also accepts the Search custom-skill request/response
+contract and supports switching the detector to Presidio.
+
+An alternative is **built-in PII detection -> custom tokenization/mapping skill**.
+We combine those stages in one endpoint for the demo. **Demo 1** calls the detector
+directly from its standalone script and needs no Search Web API wrapper or mapping DB.
+
 ### RAG conversation: protected reasoning, optional display-only restoration
 
 ```mermaid
